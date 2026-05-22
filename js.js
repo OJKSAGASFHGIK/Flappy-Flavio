@@ -18,10 +18,10 @@ let bird = {
 } // dict
 
 // poop (drops when bird jumps)
-let poopWidth = 10;
-let poopHeight = 10;
+let poopWidth = 20;
+let poopHeight = 20;
 let poopVelocityY = 0;
-let poopGravity = 0.8; // poop drops faster
+let poopGravity = 0.3; // poop drops faster
 let poopImg;
 let poop = {
     active: false,
