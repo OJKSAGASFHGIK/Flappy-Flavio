@@ -17,6 +17,20 @@ let bird = {
     height: birdHeight, // bird.height,
 } // dict
 
+// poop (drops when bird jumps)
+let poopWidth = 10;
+let poopHeight = 10;
+let poopVelocityY = 0;
+let poopGravity = 0.8; // poop drops faster
+let poopImg;
+let poop = {
+    active: false,
+    x: 0,
+    y: 0,
+    width: poopWidth,
+    height: poopHeight
+};
+
 // pipes
 let pipeArray = [];
 let pipeX = boardWidth;
@@ -42,15 +56,18 @@ window.onload = function(){
     context = board.getContext("2d"); // used for drawing on the board
 
     // flappy bird hitbox
-/*     context.fillStyle = "red";
-    context.fillRect(bird.x, bird.y, bird.width, bird.height); // accessing bird dict
- */
+/*     context.fillStyle = "red";
+    context.fillRect(bird.x, bird.y, bird.width, bird.height); // accessing bird dict
+ */
     // load images
     birdImg = new Image(); // birdImg.src = "path";
     birdImg.src = "./memeAssets/image/flappybird.png";
     birdImg.onload = function(){
         context.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
     }
+
+    poopImg = new Image();
+    poopImg.src = "./memeAssets/image/poop.png"; // Replace with your poop image path
 
     topPipeImg = new Image();
     topPipeImg.src = "./assets/image/toppipe.png";
@@ -75,6 +92,18 @@ function update(){
     context.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
 
     if(bird.y > board.height){ gameOver = true; }
+
+    // poop logic
+    if (poop.active) {
+        poopVelocityY += poopGravity; // poop falls
+        poop.y += poopVelocityY;
+        context.drawImage(poopImg, poop.x, poop.y, poop.width, poop.height);
+
+        // Deactivate poop if it goes off screen
+        if (poop.y > board.height) {
+            poop.active = false;
+        }
+    }
 
     // pipes
     for (let i = 0; i < pipeArray.length; i++){
@@ -142,6 +171,12 @@ function moveBird(e){
     if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyW"){
         velocityY = -6; // jump
 
+        // Create the poop object when the bird jumps
+        poop.active = true;
+        poop.x = bird.x + bird.width / 4; // Start near the bird
+        poop.y = bird.y + bird.height;
+        poopVelocityY = 1; // Give it a little initial downward push
+
         // jumpSounds jumpSound
         const rIndex = Math.floor(Math.random() * jumpSounds.length);
         const jumpSound = jumpSounds[rIndex];
@@ -154,6 +189,7 @@ function moveBird(e){
     if (gameOver){
         bird.y = birdY;
         pipeArray = [];
+        poop.active = false; // clear poop on game reset
         score = 0;
         gameOver = false;
     }
