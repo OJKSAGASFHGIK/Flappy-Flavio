@@ -1,0 +1,9 @@
+- Things that I need delve deeply:
+let context;
+context = board.getContext("2d");
+context
+.onload
+.fillStyle
+.fillText
+document.addEventListener("keydown", moveBird);
+-pipeWidth

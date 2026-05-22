@@ -1,0 +1,7 @@
+/* This CSS is to decide where the game will stay in the UI */
+body {
+    font-family: "Courier New", Courier, monospace;
+    text-align: center;
+}
+
+#board { background-image: url("./assets/image/flappybirdbg.png"); }
