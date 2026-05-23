@@ -70,10 +70,10 @@ window.onload = function(){
     poopImg.src = "./memeAssets/image/poop.png"; // Replace with your poop image path
 
     topPipeImg = new Image();
-    topPipeImg.src = "./assets/image/toppipe.png";
+    topPipeImg.src = "./memeAssets/image/toppipe.png";
 
     bottomPipeImg = new Image();
-    bottomPipeImg.src = "./assets/image/bottompipe.png";
+    bottomPipeImg.src = "./memeAssets/image/bottompipe.png";
 
     requestAnimationFrame(update);
     setInterval(placePipes, 1500); // every 1.5 seconds
