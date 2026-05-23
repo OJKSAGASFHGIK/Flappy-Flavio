@@ -1,7 +1,15 @@
 /* This CSS is to decide where the game will stay in the UI */
 body {
     font-family: "Courier New", Courier, monospace;
+    display: flex;
+    justify-content: center;
     text-align: center;
+    overflow: hidden;
+    margin: 0; padding: 0;
+    background-color: black;
 }
 
-#board { background-image: url("./memeAssets/image/flappybirdbg.png"); }
+#board {
+    background-image: url("./memeAssets/image/flappybirdbg.png");
+    height: 100vh;
+}
