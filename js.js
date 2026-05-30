@@ -11,17 +11,17 @@ let birdX = boardWidth / 8;
 let birdY = boardHeight / 2;
 
 let bird = {
-    x: birdX, // bird.x,
-    y: birdY, // bird.y,
-    width: birdWidth, // bird.width,
-    height: birdHeight, // bird.height,
-} // dict
+    x: birdX,
+    y: birdY,
+    width: birdWidth,
+    height: birdHeight,
+};
 
 // poop (drops when bird jumps)
 let poopWidth = 20;
 let poopHeight = 20;
 let poopVelocityY = 0;
-let poopGravity = 0.3; // poop drops faster
+let poopGravity = 0.3;
 let poopImg;
 let poop = {
     active: false,
@@ -35,125 +35,27 @@ let poop = {
 let pipeArray = [];
 let pipeX = boardWidth;
 let pipeY = 0;
-let pipeWidth = 64; // width/height ratio = 384/3072 = 1/8
+let pipeWidth = 64;
 let pipeHeight = 512;
 
 let topPipeImg;
 let bottomPipeImg;
 
 // physics
-let velocityX = -2; // pipes moving left speed
-let velocityY = 0; // bird jump speed
-let gravity = 0.4; // bird drops
+let velocityX = -2;
+let velocityY = 0;
+let gravity = 0.4;
 
-let gameStarted = false; // NEW: whether the game has started (start button clicked)
+let gameStarted = false;
 let gameOver = false;
 let score = 0;
 
-// DOM elements (dynamically created)
+// DOM elements (now existing in HTML)
 let startButton;
 let gameOverWindow;
 let restartButton;
 
-// ----- Helper functions for UI -----
-function createUI() {
-    // Style injected for buttons and overlay
-    const style = document.createElement('style');
-    style.textContent = `
-        .flappy-start-btn {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #f5c542;
-            color: #2c1a0c;
-            border: none;
-            font-size: 28px;
-            font-weight: bold;
-            font-family: 'Courier New', monospace;
-            padding: 12px 28px;
-            border-radius: 60px;
-            cursor: pointer;
-            box-shadow: 0 6px 0 #a05e15;
-            transition: 0.05s linear;
-            z-index: 20;
-        }
-        .flappy-start-btn:active {
-            transform: translate(-50%, -44%);
-            box-shadow: 0 2px 0 #a05e15;
-        }
-        .gameover-window {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 260px;
-            background: #1e1910e6;
-            backdrop-filter: blur(8px);
-            border: 3px solid #ffc857;
-            border-radius: 48px;
-            padding: 18px 14px 28px;
-            text-align: center;
-            z-index: 30;
-            box-shadow: 0 20px 30px rgba(0,0,0,0.5);
-            font-family: monospace;
-        }
-        .gameover-window h2 {
-            font-size: 26px;
-            margin: 0 0 12px;
-            color: #ffd966;
-        }
-        .gameover-window p {
-            color: #fbe9c3;
-            font-size: 18px;
-            margin: 8px 0;
-        }
-        .restart-btn {
-            background: #56ab2f;
-            border: none;
-            font-size: 22px;
-            font-weight: bold;
-            font-family: monospace;
-            padding: 6px 20px;
-            margin-top: 12px;
-            border-radius: 40px;
-            color: white;
-            cursor: pointer;
-            box-shadow: 0 5px 0 #2c6e1a;
-            transition: 0.05s linear;
-        }
-        .restart-btn:active {
-            transform: translateY(3px);
-            box-shadow: 0 2px 0 #2c6e1a;
-        }
-        .hide {
-            display: none;
-        }
-    `;
-    document.head.appendChild(style);
-
-    // Create start button
-    startButton = document.createElement('button');
-    startButton.textContent = '🚀 Começar!';
-    startButton.className = 'flappy-start-btn';
-    document.body.appendChild(startButton);
-
-    // Create game over window
-    gameOverWindow = document.createElement('div');
-    gameOverWindow.className = 'gameover-window hide';
-    gameOverWindow.innerHTML = `
-        <h2>💩 GAME OVER</h2>
-        <p>Flavio se cagou...</p>
-        <button class="restart-btn">🔄 Tentar dnvo...</button>
-    `;
-    document.body.appendChild(gameOverWindow);
-    restartButton = gameOverWindow.querySelector('.restart-btn');
-
-    // Position canvas relative for absolute positioning of buttons
-    board.style.position = 'relative';
-    document.body.style.position = 'relative';
-}
-
+// ----- Helper functions for UI (no creation, just selection & visibility) -----
 function showStartButton() {
     startButton.classList.remove('hide');
 }
@@ -210,8 +112,10 @@ window.onload = function () {
     board.width = boardWidth;
     context = board.getContext("2d");
 
-    // Create UI (start button & game over window)
-    createUI();
+    // Get existing UI elements from HTML
+    startButton = document.getElementById("startBtn");
+    gameOverWindow = document.getElementById("gameOverWindow");
+    restartButton = document.getElementById("restartBtn");
 
     // Load images
     birdImg = new Image();
@@ -227,7 +131,7 @@ window.onload = function () {
     bottomPipeImg.src = "./memeAssets/image/bottompipe.png";
 
     // Event listeners
-    document.addEventListener("keydown", handleGlobalKeys); // bird jump, and buttons
+    document.addEventListener("keydown", handleGlobalKeys);
     startButton.addEventListener("click", startGame);
     restartButton.addEventListener("click", restartGame);
 
@@ -286,7 +190,6 @@ function update() {
     // If game not started, draw static scene + start hint
     if (!gameStarted) {
         context.clearRect(0, 0, board.width, board.height);
-        // Draw idle bird
         context.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
         context.fillStyle = "white";
         context.font = "24px monospace";
@@ -295,7 +198,7 @@ function update() {
     }
 
     // If game over, freeze the canvas (don't update anything)
-    if (gameOver){ return; }
+    if (gameOver) return;
 
     // Game active: update everything
     context.clearRect(0, 0, board.width, board.height);
@@ -305,7 +208,6 @@ function update() {
     bird.y += velocityY;
     if (bird.y < 0) bird.y = 0;
 
-    // Draw bird
     context.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
 
     // Poop logic
@@ -351,7 +253,6 @@ function update() {
 }
 
 function placePipes() {
-    // Only place pipes if game active and not over
     if (!gameStarted || gameOver) return;
 
     let randomPipeY = pipeY - pipeHeight / 4 - Math.random() * (pipeHeight / 2);

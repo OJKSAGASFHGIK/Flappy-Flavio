@@ -5,11 +5,91 @@ body {
     justify-content: center;
     text-align: center;
     overflow: hidden;
-    margin: 0; padding: 0;
+    margin: 0;
+    padding: 0;
     background-color: black;
+    position: relative; /* needed for absolute positioning of buttons */
 }
 
 #board {
     background-image: url("./memeAssets/image/flappybirdbg.png");
     height: 100vh;
+}
+
+/* ----- NEW STYLES FOR BUTTONS & GAME OVER WINDOW ----- */
+.start-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #f5c542;
+    color: #2c1a0c;
+    border: none;
+    font-size: 28px;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    padding: 12px 28px;
+    border-radius: 60px;
+    cursor: pointer;
+    box-shadow: 0 6px 0 #a05e15;
+    transition: 0.05s linear;
+    z-index: 20;
+}
+
+.start-btn:active {
+    transform: translate(-50%, -44%);
+    box-shadow: 0 2px 0 #a05e15;
+}
+
+.gameover-window {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 260px;
+    background: #1e1910e6;
+    backdrop-filter: blur(8px);
+    border: 3px solid #ffc857;
+    border-radius: 48px;
+    padding: 18px 14px 28px;
+    text-align: center;
+    z-index: 30;
+    box-shadow: 0 20px 30px rgba(0,0,0,0.5);
+    font-family: monospace;
+}
+
+.gameover-window h2 {
+    font-size: 26px;
+    margin: 0 0 12px;
+    color: #ffd966;
+}
+
+.gameover-window p {
+    color: #fbe9c3;
+    font-size: 18px;
+    margin: 8px 0;
+}
+
+.restart-btn {
+    background: #56ab2f;
+    border: none;
+    font-size: 22px;
+    font-weight: bold;
+    font-family: monospace;
+    padding: 6px 20px;
+    margin-top: 12px;
+    border-radius: 40px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 5px 0 #2c6e1a;
+    transition: 0.05s linear;
+}
+
+.restart-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 #2c6e1a;
+}
+
+.hide {
+    display: none;
 }
