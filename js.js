@@ -11,17 +11,17 @@ let birdX = boardWidth / 8;
 let birdY = boardHeight / 2;
 
 let bird = {
-    x: birdX,
-    y: birdY,
-    width: birdWidth,
-    height: birdHeight,
-};
+    x: birdX, // bird.x,
+    y: birdY, // bird.y,
+    width: birdWidth, // bird.width,
+    height: birdHeight, // bird.height,
+} // dict
 
 // poop (drops when bird jumps)
 let poopWidth = 20;
 let poopHeight = 20;
 let poopVelocityY = 0;
-let poopGravity = 0.3;
+let poopGravity = 0.3; // poop drops faster
 let poopImg;
 let poop = {
     active: false,
@@ -35,18 +35,18 @@ let poop = {
 let pipeArray = [];
 let pipeX = boardWidth;
 let pipeY = 0;
-let pipeWidth = 64;
+let pipeWidth = 64; // width/height ratio = 384/3072 = 1/8
 let pipeHeight = 512;
 
 let topPipeImg;
 let bottomPipeImg;
 
 // physics
-let velocityX = -2;
-let velocityY = 0;
-let gravity = 0.4;
+let velocityX = -2; // pipes moving left speed
+let velocityY = 0; // bird jump speed
+let gravity = 0.4; // bird drops
 
-let gameStarted = false;   // NEW: whether the game has started (start button clicked)
+let gameStarted = false; // NEW: whether the game has started (start button clicked)
 let gameOver = false;
 let score = 0;
 
@@ -134,7 +134,7 @@ function createUI() {
 
     // Create start button
     startButton = document.createElement('button');
-    startButton.textContent = '🚀 START';
+    startButton.textContent = '🚀 Começar!';
     startButton.className = 'flappy-start-btn';
     document.body.appendChild(startButton);
 
@@ -144,7 +144,7 @@ function createUI() {
     gameOverWindow.innerHTML = `
         <h2>💩 GAME OVER</h2>
         <p>Flavio se cagou...</p>
-        <button class="restart-btn">🔄 RESTART</button>
+        <button class="restart-btn">🔄 Tentar dnvo...</button>
     `;
     document.body.appendChild(gameOverWindow);
     restartButton = gameOverWindow.querySelector('.restart-btn');
@@ -227,7 +227,7 @@ window.onload = function () {
     bottomPipeImg.src = "./memeAssets/image/bottompipe.png";
 
     // Event listeners
-    document.addEventListener("keydown", handleGlobalKeys);
+    document.addEventListener("keydown", handleGlobalKeys); // bird jump, and buttons
     startButton.addEventListener("click", startGame);
     restartButton.addEventListener("click", restartGame);
 
@@ -295,9 +295,7 @@ function update() {
     }
 
     // If game over, freeze the canvas (don't update anything)
-    if (gameOver) {
-        return;
-    }
+    if (gameOver){ return; }
 
     // Game active: update everything
     context.clearRect(0, 0, board.width, board.height);
