@@ -55,6 +55,15 @@ let startButton;
 let gameOverWindow;
 let restartButton;
 
+// audio
+let a1EleTaPassandoMau = new Audio("./memeAssets/meme/a1_Ele_ta_passando_mau.mp3");
+a1EleTaPassandoMau.currentTime = 0;
+a1EleTaPassandoMau.volume = 0.5;
+
+let a2EleCagouNaCalça = new Audio("./memeAssets/meme/a2_Ele_cagou_na_calça.mp3");
+a2EleCagouNaCalça.currentTime = 0;
+a2EleCagouNaCalça.volume = 0.5;
+
 // ----- Helper functions for UI (no creation, just selection & visibility) -----
 function showStartButton() {
     startButton.classList.remove('hide');
@@ -147,11 +156,16 @@ function handleGlobalKeys(e) {
         // Case: game not started -> start
         if (!gameStarted) {
             startGame();
+
+            a1EleTaPassandoMau.play();
             return;
         }
         // Case: game over -> restart
         if (gameStarted && gameOver) {
             restartGame();
+
+            a1EleTaPassandoMau.currentTime = 0;
+            a1EleTaPassandoMau.play();
             return;
         }
         // Case: game running -> jump
@@ -174,7 +188,7 @@ function performJump() {
     const rIndex = Math.floor(Math.random() * jumpSounds.length);
     const jumpSound = jumpSounds[rIndex];
     jumpSound.currentTime = 0;
-    jumpSound.volume = 0.1;
+    jumpSound.volume = 0.05;
     jumpSound.play();
 }
 
@@ -183,6 +197,7 @@ let jumpSounds = [
     new Audio("./memeAssets/audio/sfx_wing2.mp3"),
     new Audio("./memeAssets/audio/sfx_wing3.mp3"),
 ];
+
 
 function update() {
     requestAnimationFrame(update);
@@ -194,11 +209,26 @@ function update() {
         context.fillStyle = "white";
         context.font = "24px monospace";
         context.fillText("", board.width / 2 - 80, board.height / 2 + 50);
+        
+        a1EleTaPassandoMau.play();
         return;
     }
 
+    /* if (score = 1){
+        a2EleCagouNaCalça.play();
+        return;
+    } */
+
+    // Game started
+    /* if (gameStarted) {
+        
+    } */
+
     // If game over, freeze the canvas (don't update anything)
-    if (gameOver) return;
+    if (gameOver){
+        a1EleTaPassandoMau.pause();
+        return;
+    }
 
     // Game active: update everything
     context.clearRect(0, 0, board.width, board.height);
