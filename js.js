@@ -193,7 +193,7 @@ function update() {
         context.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
         context.fillStyle = "white";
         context.font = "24px monospace";
-        context.fillText("PRESS START", board.width / 2 - 80, board.height / 2 + 50);
+        context.fillText("", board.width / 2 - 80, board.height / 2 + 50);
         return;
     }
 
