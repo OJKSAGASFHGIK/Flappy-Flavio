@@ -156,8 +156,6 @@ function handleGlobalKeys(e) {
         // Case: game not started -> start
         if (!gameStarted) {
             startGame();
-
-            a1EleTaPassandoMau.play();
             return;
         }
         // Case: game over -> restart
@@ -165,12 +163,15 @@ function handleGlobalKeys(e) {
             restartGame();
 
             a1EleTaPassandoMau.currentTime = 0;
-            a1EleTaPassandoMau.play();
+            a2EleCagouNaCalça.currentTime = 0;
             return;
         }
         // Case: game running -> jump
         if (gameStarted && !gameOver) {
             performJump();
+
+            if (score === 0){ a1EleTaPassandoMau.play(); }
+            if (score === 24) { a2EleCagouNaCalça.play(); }
         }
     }
 }
@@ -198,7 +199,6 @@ let jumpSounds = [
     new Audio("./memeAssets/audio/sfx_wing3.mp3"),
 ];
 
-
 function update() {
     requestAnimationFrame(update);
 
@@ -210,14 +210,8 @@ function update() {
         context.font = "24px monospace";
         context.fillText("", board.width / 2 - 80, board.height / 2 + 50);
         
-        a1EleTaPassandoMau.play();
         return;
     }
-
-    /* if (score = 1){
-        a2EleCagouNaCalça.play();
-        return;
-    } */
 
     // Game started
     /* if (gameStarted) {
@@ -227,6 +221,7 @@ function update() {
     // If game over, freeze the canvas (don't update anything)
     if (gameOver){
         a1EleTaPassandoMau.pause();
+        a2EleCagouNaCalça.pause();
         return;
     }
 
